@@ -1,0 +1,7 @@
+SERVICE_NAME_PREFIX: ${self:service}-${sls:stage}
+
+SSM_PREFIX: /${self:custom.SERVICE_NAME_PREFIX}
+
+MAIN_TABLE_NAME: ${self:custom.SERVICE_NAME_PREFIX}-main
+
+BUCKET_NAME: bucket-felipe

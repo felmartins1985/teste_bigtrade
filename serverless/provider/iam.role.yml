@@ -1,0 +1,24 @@
+statements:
+  - Effect: Allow
+    Action:
+      - dynamodb:PutItem
+      - dynamodb:DeleteItem
+      - dynamodb:GetItem
+      - dynamodb:Query
+      - dynamodb:UpdateItem
+    Resource:
+      - arn:aws:dynamodb:us-east-1:976098840428:table/felipe-lambda-crud-user-sbx-main*
+      - arn:aws:dynamodb:us-east-1:976098840428:table/felipe-crud-book*
+  - Effect: Allow
+    Action:
+      - s3:GetObject
+      - s3:PutObject
+      - s3:ListBucket
+      - s3:DeleteObject
+    Resource:
+      - arn:aws:s3:::bucket-felipe*
+  - Effect: Allow
+    Action:
+      - sqs:SendMessage
+    Resource:
+      - !Sub arn:aws:sqs:us-east-1:976098840428:felipe-queue.fifo

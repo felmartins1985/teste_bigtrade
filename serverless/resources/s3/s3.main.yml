@@ -1,0 +1,6 @@
+Resources:
+  PersistentPublicBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: ${self:custom.BUCKET_NAME}
+      

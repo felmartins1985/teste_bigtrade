@@ -1,0 +1,46 @@
+service: felipe-lambda-crud-user
+frameworkVersion: "3"
+plugins:
+  - serverless-esbuild
+  - serverless-deployment-bucket
+
+provider:
+  name: aws
+  stage: ${opt:stage, "dev"}
+  region: ${opt:region, "us-east-1"}
+  runtime: nodejs18.x
+  deploymentBucket:
+    name: bigtrade-serverless-artifacts-${sls:stage}
+  iam:
+    role: ${file(./serverless/provider/iam.role.yml)}
+  apiGateway:
+    binaryMediaTypes:
+      - "*/*"
+
+functions:
+  lambdaHandler:
+    handler: index.handler
+    events:
+      - httpApi:
+          path: /handler/{id}
+          method: get
+
+  api:
+    handler: src/app.handler
+    timeout: 30
+    events:
+      - http:
+          method: ANY
+          path: /{proxy+}
+          cors: false
+      - http:
+          method: ANY
+          path: /
+          cors: false
+
+custom: ${file(./serverless/custom/variables.yml)}
+
+resources:
+  - ${file(./serverless/resources/dynamodb/table.main.yml)}
+  - ${file(./serverless/resources/s3/s3.main.yml)}
+  - ${file(./serverless/resources/sqs/queue-fifo.yml)}

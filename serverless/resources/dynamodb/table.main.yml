@@ -1,0 +1,49 @@
+Resources:
+  Main:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: ${self:custom.MAIN_TABLE_NAME}
+      AttributeDefinitions:
+        - AttributeName: pk
+          AttributeType: S
+        - AttributeName: sk
+          AttributeType: S
+      KeySchema:
+        - AttributeName: pk
+          KeyType: HASH
+        - AttributeName: sk
+          KeyType: RANGE
+      BillingMode: PAY_PER_REQUEST
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
+  Secondary:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: felipe-crud-book
+      AttributeDefinitions:
+        - AttributeName: pk
+          AttributeType: S
+        - AttributeName: sk
+          AttributeType: S
+      KeySchema:
+        - AttributeName: pk
+          KeyType: HASH
+        - AttributeName: sk
+          KeyType: RANGE
+      BillingMode: PAY_PER_REQUEST
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
+
+  ParameterTableMainName:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Name: ${self:custom.SSM_PREFIX}/MAIN_TABLE_NAME
+      Type: String
+      Value: ${self:custom.MAIN_TABLE_NAME}
+
+  ParameterTableSecondaryName:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Name: felipe-second-table-secondary-book
+      Type: String
+      Value: felipe-table-secondary-book  
